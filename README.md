@@ -1,8 +1,8 @@
 # Lifecycle & Email Marketing
 
-**Map journeys, activate users, and protect your sender reputation end to end.** — built in-house by [Skill&nbsp;Me](https://skillme.dev).
+**For lifecycle marketers: turn signups into retained users and keep email in the inbox.** — built in-house by [Skill&nbsp;Me](https://skillme.dev).
 
-A complete toolkit for lifecycle and email marketers, covering journey mapping, drip sequences, win-back campaigns, behavioral segmentation, push notification copy, and deliverability. Each skill is opinionated and immediately actionable, designed to reduce guesswork and ship better campaigns faster.
+Reach for this when you own a lifecycle or email program and need it to actually move retention, not just ship more sends. It takes you from a stage-by-stage journey map and behavioral segments through onboarding drips, multi-channel push, and dormant-user win-backs, with deliverability practices guarding your sender reputation so the work lands in the inbox. The payoff: a coherent program where every message has a clear job and a measurable signal, instead of disconnected blasts that burn your list.
 
 ⭐ **If this is useful, star the repo** — it's how we gauge what to build next.
 
