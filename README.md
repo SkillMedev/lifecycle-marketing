@@ -9,7 +9,7 @@ Reach for this when you own a lifecycle or email program and need it to actually
 ## Install
 
 - **From the catalog:** [skillme.dev/pack/lifecycle-marketing](https://skillme.dev/pack/lifecycle-marketing) — install the whole pack into Claude in one step.
-- **With the skills CLI:** `npx skills add aouellets/lifecycle-marketing`
+- **With the skills CLI:** `npx skills add SkillMedev/lifecycle-marketing`
 - **Manually:** copy any `skills/<slug>/SKILL.md` into your Claude skills directory.
 
 ## Skills in this pack
