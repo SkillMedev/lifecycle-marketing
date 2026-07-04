@@ -14,14 +14,14 @@ Reach for this when you own a lifecycle or email program and need it to actually
 
 ## Skills in this pack
 
-- **[Lifecycle Journey Map](skills/lifecycle-journey-map/SKILL.md)** — Maps the customer lifecycle and designs the right message for each stage.
-- **[Email Drip Builder](skills/email-drip-builder/SKILL.md)** — Designs automated drip and onboarding email sequences that activate users.
-- **[Win-Back Campaign](skills/win-back-campaign/SKILL.md)** — Designs win-back and re-engagement campaigns for dormant users.
-- **[Segmentation Strategy](skills/segmentation-strategy/SKILL.md)** — Builds behavioral segments for targeted lifecycle messaging.
-- **[Push Notification Copy](skills/push-notification-copy/SKILL.md)** — Writes push and in-app notification copy that is timely, relevant, and not annoying.
-- **[Email Deliverability](skills/email-deliverability/SKILL.md)** — Protects sender reputation and inbox placement through SPF, DKIM, DMARC, and list hygiene.
-- **[Email Newsletter Pro](skills/email-newsletter-pro/SKILL.md)** — Subject lines, structure, and pacing that get newsletters opened and read to the end.
-- **[Churn Reduction](skills/churn-reduction/SKILL.md)** — Diagnoses churn root causes and designs intervention playbooks by segment.
+- **[Lifecycle Journey Map](skills/lifecycle-journey-map/SKILL.md)** — Builds a customer lifecycle journey map with behavioral entry/exit criteria per stage, one goal and one signal per stage, message briefs, and dead-zone flags.
+- **[Email Drip Builder](skills/email-drip-builder/SKILL.md)** — Designs automated onboarding and activation drip sequences with behavior-gated sends, exit
+- **[Win-Back Campaign](skills/win-back-campaign/SKILL.md)** — Designs segmented win-back email sequences for dormant users — dormancy tiers, a three-beat sequence with a single proportional incentive, and a suppression rule — and measures success by re-activation, not opens.
+- **[Segmentation Strategy](skills/segmentation-strategy/SKILL.md)** — Builds a behavioral segmentation system for lifecycle messaging — RFM-based segments, event-driven membership triggers, one next action per segment, size audits, and send-time suppression rules.
+- **[Push Notification Copy](skills/push-notification-copy/SKILL.md)** — Writes push and in-app notification copy that survives lock-screen truncation, ties every send to a user-specific trigger, deep-links to the exact destination, and respects frequency caps.
+- **[Email Deliverability](skills/email-deliverability/SKILL.md)** — Audits and protects sender reputation and inbox placement for permissioned marketing and lifecycle email — SPF, DKIM, and DMARC authentication, domain warmup, bounce and complaint thresholds, and engagement sunsetting — and delivers a scored deliverability audit checklist with a remediation order.
+- **[Email Newsletter Pro](skills/email-newsletter-pro/SKILL.md)** — Write recurring email newsletters — subject lines that earn the open, preview text that extends them, a body structure readers finish, and cadence rules that keep the list healthy.
+- **[Churn Reduction](skills/churn-reduction/SKILL.md)** — Diagnoses SaaS churn root causes through cohort analysis and a seven-category taxonomy, then builds segmented intervention playbooks ranked by frequency, revenue at stake, and addressability — including save-offer economics.
 
 ## License
 

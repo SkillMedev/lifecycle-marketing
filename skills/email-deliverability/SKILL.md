@@ -1,32 +1,117 @@
 ---
 name: Email Deliverability
-description: Protects sender reputation and inbox placement via SPF, DKIM, DMARC, and list hygiene. Use when setting up a new sending domain, diagnosing spam folder placement, or auditing an existing email program.
+description: Audits and protects sender reputation and inbox placement for permissioned marketing and lifecycle email — SPF, DKIM, and DMARC authentication, domain warmup, bounce and complaint thresholds, and engagement sunsetting — and delivers a scored deliverability audit checklist with a remediation order. Use when someone asks "why are my newsletters going to spam", "how do I set up SPF, DKIM, and DMARC", "is my bounce rate too high", "should I send marketing from a subdomain", or is launching a new sending domain or auditing an existing opted-in email program. Do NOT use for cold outbound infrastructure — lookalike sending domains, mailbox pools, per-mailbox volume caps — use cold-email-deliverability instead; do NOT use to write the emails themselves — use email-drip-builder or email-newsletter-pro instead.
 ---
 
 # Email Deliverability
 
-Deliverability is not a one-time configuration task; it is an ongoing discipline. A sender reputation takes months to build and days to destroy. The practices here protect the most valuable channel most marketing teams have.
+Sender reputation takes months to build and days to destroy, and most teams discover a deliverability problem only after open rates have already cratered. This skill audits and protects inbox placement for permissioned marketing and lifecycle email — authentication, warmup, list hygiene, and engagement — and returns a scored audit with fixes in dependency order. It exists to catch the silent killers (an unenforced DMARC policy, a stale segment, a skipped warmup) before an inbox provider does.
 
-## Authenticate the Sending Domain on Day One
+## Operating procedure
 
-SPF, DKIM, and DMARC are not optional. SPF declares which servers are allowed to send on the domain's behalf. DKIM signs each message cryptographically. DMARC tells receiving servers what to do with unauthenticated mail and where to send reports. Set DMARC policy to p=quarantine within 30 days of launch and p=reject within 90 days once reports confirm no legitimate mail is failing.
+Work the steps in order: authentication failures poison every downstream metric, so fix identity before hygiene, and hygiene before engagement.
 
-## Warm Up New Sending Domains Slowly
+### Step 1: Gather inputs
 
-A new IP and domain has no sending history. Start at 200 to 500 sends per day, doubling volume every three to five days while monitoring bounce and complaint rates. Skipping warmup causes inbox providers to block the domain before the list has been reached. Use a dedicated warmup tool or a structured warmup plan from the ESP.
+Collect these before auditing anything. If a number is estimated, label it a guess and verify against the ESP dashboard before the audit ships.
 
-## Keep Hard Bounce Rate Below 0.5 Percent
+- Sending domain(s), and whether marketing and transactional mail share one identity.
+- ESP(s) in use; shared or dedicated sending IP.
+- List size, acquisition sources (signup form, import, purchase — a purchased source is an automatic red flag), and list age.
+- Last 30 days of: delivered volume, hard and soft bounce rates, spam complaint rate, open and click rates by segment.
+- Google Postmaster Tools access. If the domain is not enrolled, enrolling is the first remediation item — it is the only direct view of how Gmail scores the domain.
+- DMARC report destination, if one exists.
 
-A hard bounce means the address does not exist. A rate above 0.5 percent signals poor list hygiene to inbox providers. Remove hard bounces immediately and automatically after the first occurrence. Never retry a hard bounce.
+### Step 2: Verify authentication by DNS lookup, not by the ESP settings screen
 
-## Monitor Complaint Rate and Act Fast
+SPF, DKIM, and DMARC are not optional; Gmail and Yahoo bulk-sender requirements effectively mandate all three plus one-click unsubscribe.
 
-Spam complaints above 0.1 percent trigger filtering at most major inbox providers. Gmail's Postmaster Tools and similar dashboards surface complaint rates in near real time. A spike above the threshold requires pausing sends, auditing the segment, and diagnosing the cause before resuming.
+- SPF: exactly one v=spf1 TXT record (two records is a permerror and silently fails), ending in ~all or -all. SPF declares which servers may send on the domain's behalf.
+- DKIM: cryptographically signs each message; confirm every marketing send is signed.
+- DMARC: tells receivers what to do with unauthenticated mail and where to send reports. Ramp the policy: start at p=none to monitor, move to p=quarantine within 30 days of launch, and p=reject within 90 days once aggregate reports confirm no legitimate mail is failing. A p=none policy left in place indefinitely is monitoring without protection.
 
-## Sunset Unengaged Subscribers Before They Hurt Reputation
+### Step 3: Separate mail streams
 
-Subscribers who have not opened or clicked in 180 days drag down engagement rates, which inbox providers use as a quality signal. Run a re-permission campaign before the 180-day mark. Suppress those who do not respond. A smaller, engaged list consistently outperforms a large, stale one.
+Send marketing from a dedicated subdomain (mail.example.com, not example.com) configured as a distinct sending identity with its own SPF and DKIM records. This insulates transactional mail — receipts, password resets — from reputation damage caused by campaigns. If both streams share one identity today, flag it as a structural finding.
 
-## Use a Subdomain for Marketing Sends
+### Step 4: Warm up anything new
 
-Sending from mail.example.com instead of example.com insulates transactional mail (receipts, password resets) from reputation damage caused by marketing campaigns. Configure the subdomain as a distinct sending identity with its own SPF and DKIM records.
+A new IP or domain has no sending history. Start at 200 to 500 sends per day, doubling volume every three to five days while watching bounce and complaint rates. Skipping warmup gets the domain blocked before the list has been reached. Use a structured warmup plan from the ESP or a dedicated warmup tool, and keep weekly volume consistent afterward — 10x spikes look like a compromised account.
+
+### Step 5: Audit list hygiene against hard thresholds
+
+- Hard bounce rate below 0.5 percent. A hard bounce means the address does not exist; remove it immediately and automatically after the first occurrence, and never retry it.
+- Total bounce rate above 2 percent is a list-quality emergency: pause sends to the offending acquisition source and re-verify the segment before resuming.
+- No purchased or scraped addresses in any segment, ever.
+
+### Step 6: Check complaints and engagement
+
+- Spam complaint rate below 0.1 percent on every segment — that is the threshold at which most major inbox providers begin filtering, and Gmail's enforcement red line sits at 0.3 percent. A spike above 0.1 percent requires pausing sends, auditing the segment, and diagnosing the cause before resuming.
+- Sender Score (Validity) of 80 or above is healthy; below 70, expect filtering and cut volume while diagnosing.
+- Sunset unengaged subscribers: anyone with no open or click in 180 days drags down the engagement signals providers use to score quality. Run a re-permission campaign before the 180-day mark and suppress non-responders. A smaller, engaged list consistently outperforms a large, stale one.
+
+### Step 7: Score the audit and order the fixes
+
+Complete the checklist below, mark each item pass or fail, and order remediation by dependency: authentication, then stream separation, then hygiene, then complaints, then engagement.
+
+## Worked artifact: deliverability audit checklist
+
+```
+DELIVERABILITY AUDIT — [FILL: domain] — [FILL: auditor]
+
+AUTHENTICATION
+[ ] Exactly ONE SPF (v=spf1) TXT record, ending ~all or -all
+[ ] DKIM signing verified on every marketing send
+[ ] DMARC published at p=quarantine or p=reject
+    (p=none acceptable only during initial monitoring window)
+[ ] DMARC rua= reporting address set and reports reviewed
+
+STREAM SEPARATION
+[ ] Marketing sends from a dedicated subdomain (e.g. mail.example.com)
+[ ] Subdomain has its own SPF and DKIM records
+[ ] Transactional mail isolated on a separate identity
+
+VOLUME & WARMUP
+[ ] New domain/IP warmed from 200-500/day, doubling every 3-5 days
+[ ] Weekly volume consistent — no unexplained spikes
+
+LIST HYGIENE
+[ ] Hard bounce rate < 0.5%; hard bounces suppressed after first occurrence
+[ ] Total bounce rate < 2% on every segment
+[ ] No purchased or scraped addresses; acquisition source recorded per subscriber
+
+COMPLAINTS & ENGAGEMENT
+[ ] Spam complaint rate < 0.1% on every segment
+[ ] Google Postmaster Tools enrolled; domain reputation Medium or High
+[ ] One-click unsubscribe (List-Unsubscribe header) present
+[ ] 180-day unengaged segment identified; re-permission campaign scheduled
+[ ] Sunset policy suppresses non-responders automatically
+
+VERDICT: [FILL: healthy / at risk / failing]
+TOP 3 FIXES IN ORDER: [FILL]
+RE-CHECK IN 30 DAYS: [FILL: the 2-3 metrics to re-measure]
+```
+
+## Deliverable
+
+Produce the completed audit checklist plus a remediation plan: every failed item, its fix, an owner, and the dependency order — with the two or three metrics to re-measure 30 days later.
+
+## Do NOT
+
+- Do not retry hard bounces — the address does not exist, and repeated attempts signal poor hygiene to providers.
+- Do not leave DMARC at p=none past the monitoring window — it reports failures but blocks nothing.
+- Do not blast a re-permission campaign to the entire stale segment at once; send it in slices so a complaint spike from the least-engaged cohort cannot torch the domain.
+- Do not send marketing and transactional mail from the same identity — one bad campaign then delays password resets.
+- Do not treat deliverability as one-time configuration; complaint and reputation data need a standing review cadence.
+- Do not confuse this with cold outbound. Cold sending uses separate lookalike domains and per-mailbox caps precisely because it is expected to burn identities — those rules live in cold-email-deliverability.
+
+## Quality bar
+
+- Every metric in the audit is pulled from the ESP or Postmaster Tools, not estimated; any guess is labeled as a guess.
+- Authentication verified by actual DNS lookup, not the ESP's green checkmark.
+- The verdict cites the numbers against the thresholds (0.5% hard bounce, 2% total bounce, 0.1% complaints, DMARC enforcement state).
+- Remediation is ordered by dependency and every item has an owner.
+
+## Scope and escalation
+
+This skill covers permissioned marketing and lifecycle sending from the brand's own domain. For cold outbound infrastructure, use cold-email-deliverability. For sequence content, use email-drip-builder; for newsletter craft, email-newsletter-pro; for re-engaging lapsed customers as a campaign, win-back-campaign. If the domain is on public blocklists or under a provider enforcement action, treat recovery as its own project: cut volume to the most-engaged decile and rebuild slowly rather than sending through the damage.
