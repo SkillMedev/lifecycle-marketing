@@ -1,16 +1,17 @@
 # Lifecycle & Email Marketing
 
-**For lifecycle marketers: turn signups into retained users and keep email in the inbox.** — built in-house by [Skill&nbsp;Me](https://skillme.dev).
+**For lifecycle marketers: turn signups into retained users and keep email in the inbox.** — built in-house by [Skill&nbsp;Me](https://skillme.dev/?utm_source=github&utm_medium=readme&utm_campaign=pack-lifecycle-marketing).
 
 Reach for this when you own a lifecycle or email program and need it to actually move retention, not just ship more sends. It takes you from a stage-by-stage journey map and behavioral segments through onboarding drips, multi-channel push, and dormant-user win-backs, with deliverability practices guarding your sender reputation so the work lands in the inbox. The payoff: a coherent program where every message has a clear job and a measurable signal, instead of disconnected blasts that burn your list.
 
-⭐ **If this is useful, star the repo** — it's how we gauge what to build next.
-
 ## Install
 
-- **From the catalog:** [skillme.dev/pack/lifecycle-marketing](https://skillme.dev/pack/lifecycle-marketing) — install the whole pack into Claude in one step.
+- **Claude, ChatGPT, Codex, Cursor (connector):** [install the whole pack from skillme.dev](https://skillme.dev/pack/lifecycle-marketing?utm_source=github&utm_medium=readme&utm_campaign=pack-lifecycle-marketing) — one connection, then ask for any skill by name.
+- **As files for Codex, Cursor, or Claude Code:** `npx @skillme/cli add lifecycle-journey-map email-drip-builder win-back-campaign segmentation-strategy push-notification-copy email-deliverability email-newsletter-pro churn-reduction --target all`
 - **With the skills CLI:** `npx skills add SkillMedev/lifecycle-marketing`
-- **Manually:** copy any `skills/<slug>/SKILL.md` into your Claude skills directory.
+- **Manually:** copy any `skills/<slug>/SKILL.md` into `.agents/skills/`, `.cursor/skills/`, or `.claude/skills/`.
+
+⭐ **If this is useful, star the repo** — it's how we gauge what to build next.
 
 ## Skills in this pack
 
@@ -26,4 +27,4 @@ Reach for this when you own a lifecycle or email program and need it to actually
 ## License
 
 MIT — see [LICENSE](LICENSE). Skills are portable `SKILL.md` files; the canonical
-copies live in the [Skill&nbsp;Me catalog](https://skillme.dev).
+copies live in the [Skill&nbsp;Me catalog](https://skillme.dev/browse?utm_source=github&utm_medium=readme&utm_campaign=pack-lifecycle-marketing).
